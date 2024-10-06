@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,11 +24,11 @@ public class Order {
     @Column(name = "order_date")
     private Date orderDate;
 
-    @Column(name = "sum_price")
-    private double sumPrice;
+    @Column(name = "sum_price", precision = 10, scale = 2)
+    private BigDecimal sumPrice;
 
-    @Column(name = "discount")
-    private double discount;
+    @Column(name = "discount", precision = 5, scale = 2)
+    private BigDecimal discount;
 
     @Column(name = "payment_method", length = 50)
     private String paymentMethod;

@@ -1,10 +1,11 @@
 package com.luu.BackEnd.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,16 +34,13 @@ public class User {
     @Column(name = "phone_number", length = 15)
     private String phoneNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rank_id",insertable = false,updatable = false)
-    private Ranking ranking;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id",insertable = false,updatable = false)
+    @JoinColumn(name = "role_id")
     private Role roles;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id",insertable = false,updatable = false)
+    @JoinColumn(name = "status_id")
     private UserStatus userStatus;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")

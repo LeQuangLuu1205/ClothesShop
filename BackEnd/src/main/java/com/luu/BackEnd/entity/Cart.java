@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "sum_price")
-    private double sumPrice;
+    @Column(name = "sum_price", precision = 10, scale = 2)
+    private BigDecimal sumPrice;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart")
     private List<CartDetail> cartDetails = new ArrayList<>();
