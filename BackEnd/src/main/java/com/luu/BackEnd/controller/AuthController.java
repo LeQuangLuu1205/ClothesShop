@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:63342")
 public class AuthController {
     @Autowired
     private UserServiceImp userServiceImp;
@@ -59,9 +58,11 @@ public class AuthController {
             String token = jwtUtilsHelper.generateToken(username);
             responseData.setSuccess(true);
             responseData.setData(token);
+            return new ResponseEntity<>(responseData, HttpStatus.OK);
         } else {
-            responseData.setData(null);
+            responseData.setSuccess(false);
+            responseData.setMessage("Invalid username or password");
+            return new ResponseEntity<>(responseData, HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>(responseData,HttpStatus.OK);
     }
 }
