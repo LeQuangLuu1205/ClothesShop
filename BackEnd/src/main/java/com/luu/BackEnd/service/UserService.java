@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomerService implements UserServiceImp {
+public class UserService implements UserServiceImp {
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -25,12 +25,12 @@ public class CustomerService implements UserServiceImp {
     private UserStatusRepository userStatusRepository;
     public boolean registerCustomer(RegisterRequest request) throws UserAlreadyExistsException{
             // Check if email already exists
-            if (userRepository.existsByEmail(request.getEmail())) {
+            if (userRepository.existsByUserName(request.getUserName())) {
                 throw new UserAlreadyExistsException("Email already exists");
             }
 
             User user = new User();
-            user.setEmail(request.getEmail());
+            user.setUserName(request.getUserName());
             user.setPassword(passwordEncoder.encode(request.getPassword())); // Password encryption
             user.setFullname(request.getFullname());
             user.setPhoneNumber(request.getPhoneNumber());
@@ -43,5 +43,11 @@ public class CustomerService implements UserServiceImp {
 
             userRepository.save(user); // Save user's information into database
             return true; // register successfully
+    }
+
+    @Override
+    public boolean checkLogin(String username, String password) {
+        User user =  userRepository.findByUserName(username);
+        return passwordEncoder.matches(password,user.getPassword());
     }
 }
