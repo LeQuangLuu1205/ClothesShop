@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+<h1>Register</h1>
+<form id="registrationForm">
+
+
+
+
+    <div class="g-recaptcha" data-sitekey="6LcHl1sqAAAAAPXVu3p10LHkq4H5bjfSzx1gzxdD"></div><br>
+
+    <button type="submit">Register</button>
+</form>
+
+<script>
+    document.getElementById('registrationForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        // Lấy captchaResponse
+        var captchaResponse = grecaptcha.getResponse();
+        console.log('hello111111');
+        console.log(captchaResponse); // In ra để sao chép và dùng trong Postman
+
+        // Bạn có thể gửi dữ liệu đến backend ở đây
+    });
+</script>
+</body>
+</html>

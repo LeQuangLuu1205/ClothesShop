@@ -33,4 +33,7 @@ public class RegisterRequest {
     @NotBlank(message = "Phone number cannot be empty")
     @Pattern(regexp = "^\\+?\\d{10,15}$", message = "Phone number must be numeric and between 10 and 15 digits and can start with '+'")
     private String phoneNumber;
+
+    @NotBlank(message = "Phone number cannot be empty")
+    private String captchaResponse;
 }
