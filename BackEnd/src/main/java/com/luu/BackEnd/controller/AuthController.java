@@ -3,22 +3,21 @@ package com.luu.BackEnd.controller;
 import com.luu.BackEnd.exception.UserAlreadyExistsException;
 import com.luu.BackEnd.payload.request.RegisterRequest;
 import com.luu.BackEnd.payload.response.ResponseData;
-import com.luu.BackEnd.service.Imp.UserServiceImp;
+import com.luu.BackEnd.service.UserService;
 import com.luu.BackEnd.utils.JwtUtilsHelper;
 import com.luu.BackEnd.validation.CaptchaValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
     @Autowired
-    private UserServiceImp userServiceImp;
+    private UserService userService;
     @Autowired
     private CaptchaValidator captchaValidator;
     @Autowired
@@ -40,7 +39,7 @@ public class AuthController {
 //        }
         try {
             // Gọi service để đăng ký người dùng
-            userServiceImp.registerCustomer(registerRequest);
+            userService.registerCustomer(registerRequest);
             return ResponseEntity.ok(new ResponseData(true, "User registered successfully", registerRequest));
         } catch (UserAlreadyExistsException e) {
             return ResponseEntity.badRequest().body(new ResponseData(false, e.getMessage(), null));
@@ -54,7 +53,7 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestParam String username, @RequestParam String password) {
         ResponseData responseData = new ResponseData();
-        if (userServiceImp.checkLogin(username, password)){
+        if (userService.checkLogin(username, password)){
             String token = jwtUtilsHelper.generateToken(username);
             responseData.setSuccess(true);
             responseData.setData(token);

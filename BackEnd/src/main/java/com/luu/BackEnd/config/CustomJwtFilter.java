@@ -1,5 +1,7 @@
 package com.luu.BackEnd.config;
 
+import com.luu.BackEnd.entity.User;
+import com.luu.BackEnd.reponsitory.UserRepository;
 import com.luu.BackEnd.utils.JwtUtilsHelper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,13 +22,17 @@ import java.util.ArrayList;
 public class CustomJwtFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtilsHelper jwtUtilsHelper;
+
+    @Autowired
+    private UserRepository userRepository;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        //        System.out.println("kiem tra filter");
         String token = getTokenFromHeader(request);
         if (token!=null) {
             if (jwtUtilsHelper.verifyToken(token)) {
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken("","",new ArrayList<>());
+                String username = jwtUtilsHelper.getUserNameFromJwtToken(token);
+                User user = userRepository.findByUserName(username);
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
                 SecurityContext securityContext = SecurityContextHolder.getContext();
                 securityContext.setAuthentication(usernamePasswordAuthenticationToken);
             }
@@ -41,13 +47,6 @@ public class CustomJwtFilter extends OncePerRequestFilter {
         String username = null;
         if (StringUtils.hasText(header) && header.startsWith("Bearer ")) {
             token = header.substring(7);
-//            try {
-//                username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-//            } catch (IllegalArgumentException e) {
-//                System.out.println("Unable to get JWT Token");
-//            } catch (ExpiredJwtException e) {
-//                System.out.println("JWT Token has expired");
-//            }
         } else {
             logger.warn("JWT Token does not begin with Bearer String");
         }

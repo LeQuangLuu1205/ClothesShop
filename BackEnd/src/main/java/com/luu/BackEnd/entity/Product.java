@@ -36,11 +36,11 @@ public class Product {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(insertable = false,updatable = false,name = "cat_id")
+    @JoinColumn(name = "cat_id")
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(insertable = false,updatable = false,name = "staff_id")
+    @JoinColumn(name = "staff_id")
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")

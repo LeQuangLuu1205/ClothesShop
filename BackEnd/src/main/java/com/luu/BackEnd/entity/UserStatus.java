@@ -18,7 +18,7 @@ public class UserStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int statusId; // Changed from Integer to int
+    private int statusId;
 
     @Column(name = "status_name", length = 100)
     private String statusName;

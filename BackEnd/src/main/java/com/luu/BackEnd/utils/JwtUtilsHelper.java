@@ -23,6 +23,11 @@ public class JwtUtilsHelper {
         // Chưa thiết lập Expiration Time cho token
         return Jwts.builder().subject(data).signWith(key).compact();
     }
+    public String getUserNameFromJwtToken(String token) {
+        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(privateKey));
+        return Jwts.parser().setSigningKey(key).build()
+                .parseClaimsJws(token).getBody().getSubject();
+    }
     public boolean verifyToken(String token) {
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(privateKey));
         try {
