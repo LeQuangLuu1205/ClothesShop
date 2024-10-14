@@ -19,10 +19,7 @@ import java.nio.file.StandardCopyOption;
 public class FileServiceImpl implements FileService {
     @Value("${fileUpload.rootPath}")
     private String rootPath;
-
     private Path root;
-    //Tao folder neu no khong ton tai
-
     @PostConstruct
     public void init() {
         try {

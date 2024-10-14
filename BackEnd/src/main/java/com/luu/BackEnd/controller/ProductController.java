@@ -19,7 +19,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<?> createProduct(@RequestBody ProductDto productDto) {
-        boolean createdProduct = productService.saveProduct(productDto);
+        boolean createdProduct = productService.createProduct(productDto);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 }

@@ -14,6 +14,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ImageRepository imageRepository;
     @Override
-    public boolean saveProduct(ProductDto productDto) {
+    public boolean createProduct(ProductDto productDto) {
         try {
             Category category = categoryRepository.findById(productDto.getCatId())
                     .orElseThrow(() -> new EntityNotFoundException("Category not found"));
@@ -65,13 +66,34 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    @Override
-    public Optional<Category> findById(int id) {
-        return Optional.empty();
-    }
 
     @Override
     public boolean updateProduct(ProductDto productDto) {
         return false;
+    }
+
+    @Override
+    public boolean deleteProduct(Long productId) {
+        return false;
+    }
+
+    @Override
+    public ProductDto getProductById(Long productId) {
+        return null;
+    }
+
+    @Override
+    public List<ProductDto> getAllProducts() {
+        return null;
+    }
+
+    @Override
+    public List<ProductDto> searchProductsByName(String productName) {
+        return null;
+    }
+
+    @Override
+    public List<ProductDto> getProductsByCategory(String category) {
+        return null;
     }
 }
