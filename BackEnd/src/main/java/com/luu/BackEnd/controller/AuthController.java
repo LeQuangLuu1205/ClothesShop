@@ -72,7 +72,7 @@ public class AuthController {
                 });
                 responseData.setSuccess(false);
                 responseData.setMessage(errorMessage.toString());
-                return new ResponseEntity<>(responseData, HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
             responseData.setSuccess(false);

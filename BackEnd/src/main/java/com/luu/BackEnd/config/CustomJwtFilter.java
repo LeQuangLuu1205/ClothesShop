@@ -56,31 +56,35 @@ public class CustomJwtFilter extends OncePerRequestFilter {
         filterChain.doFilter(request,response);
     }
 
-//    @Override
-//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+
+//    public String getUsernameFromRequest(HttpServletRequest request) {
 //        String token = getTokenFromHeader(request);
-//        if (token!=null) {
-//            if (jwtUtilsHelper.verifyToken(token)) {
-//                String username = jwtUtilsHelper.getUserNameFromJwtToken(token);
-//                User user = userRepository.findByUserName(username);
-//                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
-//                SecurityContext securityContext = SecurityContextHolder.getContext();
-//                securityContext.setAuthentication(usernamePasswordAuthenticationToken);
-//            }
+//        if (token == null) {
+//            throw new IllegalArgumentException("Token is missing or invalid");
 //        }
-//
-//        filterChain.doFilter(request,response);
+//        return jwtUtilsHelper.extractUsername(token);
 //    }
 
 //    private String getTokenFromHeader(HttpServletRequest request) {
 //        String header = request.getHeader("Authorization");
-//        String token = null;
-//        String username = null;
 //        if (StringUtils.hasText(header) && header.startsWith("Bearer ")) {
-//            token = header.substring(7);
+//            return header.substring(7);
 //        } else {
 //            logger.warn("JWT Token does not begin with Bearer String");
+//            return null;
 //        }
-//        return token;
 //    }
+
+    private String getTokenFromHeader(HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+        String token = null;
+        String username = null;
+        if (StringUtils.hasText(header) && header.startsWith("Bearer ")) {
+            token = header.substring(7);
+        } else {
+            logger.warn("JWT Token does not begin with Bearer String");
+        }
+        return token;
+    }
 }

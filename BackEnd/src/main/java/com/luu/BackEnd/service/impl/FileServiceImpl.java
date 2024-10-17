@@ -1,5 +1,7 @@
 package com.luu.BackEnd.service.impl;
 
+import com.luu.BackEnd.enums.ErrorCode;
+import com.luu.BackEnd.exception.ApiException;
 import com.luu.BackEnd.service.FileService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,13 +35,15 @@ public class FileServiceImpl implements FileService {
     }
     @Override
     public boolean saveFile(MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new IllegalArgumentException("Cannot save empty file: " + file.getOriginalFilename());
+        }
+
         try {
-            init();
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
             return true;
-        } catch (Exception e) {
-            System.err.println("Error saving file: " + e.getMessage());
-            return false;
+        } catch (IOException e) {
+            throw new ApiException(ErrorCode.IMAGE_SAVE_FAILED);
         }
     }
 
@@ -48,11 +52,10 @@ public class FileServiceImpl implements FileService {
         try {
             Path file = root.resolve(fileName);
             Resource resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            } else {
+            if (!resource.exists() || !resource.isReadable()) {
                 throw new RuntimeException("Could not read the file: " + fileName);
             }
+            return resource;
         } catch (MalformedURLException e) {
             throw new RuntimeException("Error reading file: " + fileName, e);
         }

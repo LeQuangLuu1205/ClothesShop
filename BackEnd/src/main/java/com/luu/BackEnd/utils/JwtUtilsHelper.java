@@ -44,7 +44,7 @@ public class JwtUtilsHelper {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())  // Sử dụng Key đã được chuyển đổi
+                .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -77,33 +77,4 @@ public class JwtUtilsHelper {
 //        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
         return (username.equals(userDetails.getUsername()));
     }
-
-//    public String generateToken(String data) {
-//        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(privateKey));
-//
-//        // Thiết lập thời gian hết hạn cho token (1 giờ sau thời điểm hiện tại)
-//        long expirationTimeInMs = 1000 * 60 * 60; // 1 giờ = 60 phút = 3600 giây = 3600 * 1000 ms
-//        Date issuedAt = new Date();
-//        Date expirationDate = new Date(issuedAt.getTime() + expirationTimeInMs);
-//
-//        // Chưa thiết lập Expiration Time cho token
-//        return Jwts.builder().subject(data).signWith(key).compact();
-//    }
-//    public String getUserNameFromJwtToken(String token) {
-//        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(privateKey));
-//        return Jwts.parser().setSigningKey(key).build()
-//                .parseClaimsJws(token).getBody().getSubject();
-//    }
-//    public boolean verifyToken(String token) {
-//        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(privateKey));
-//        try {
-//            Jwts.parser()
-//                    .setSigningKey(key)
-//                    .build()
-//                    .parseSignedClaims(token);
-//            return true;
-//        } catch (Exception e) {
-//            return false;
-//        }
-//    }
 }
